@@ -4,6 +4,7 @@ import UserModel from "../models/user.model.js";
 export const createPost = async (body) => {
   try {
     const newPost = new PostModel(body);
+
     await newPost.save();
 
     return newPost;
@@ -19,7 +20,6 @@ export const updatePost = async (params, body) => {
       await PostModel.updateOne({
         $set: body,
       });
-
       return updatedPost;
     } else {
       throw new Error("You can update only your post");
@@ -34,7 +34,6 @@ export const deletePost = async (params, body) => {
     const deletedPost = await PostModel.findById(params.id);
     if (deletedPost.userId === body.userId) {
       await PostModel.deleteOne();
-
       return deletedPost;
     } else {
       throw new Error("You can delete only your post");
@@ -62,16 +61,15 @@ export const likeAndDislike = async (params, body) => {
 export const getPost = async (params) => {
   try {
     const post = await PostModel.findById(params.id);
-
     return post;
   } catch (error) {
     throw error;
   }
 };
 
-export const getTimelinePosts = async (params) => {
+export const getTimelinePosts = async (body) => {
   try {
-    const currentUser = await UserModel.findById(params.userId);
+    const currentUser = await UserModel.findById(body.userId);
     const userPosts = await PostModel.find({ userId: currentUser._id });
     const timelinePosts = await Promise.all(
       currentUser.followings.map((friendId) => {
@@ -80,15 +78,6 @@ export const getTimelinePosts = async (params) => {
     );
 
     return userPosts.concat({ ...timelinePosts });
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const getAllPosts = async () => {
-  try {
-    const post = await PostModel.aggregate([{ $sample: { size: 40 } }]);
-    return post;
   } catch (error) {
     throw error;
   }

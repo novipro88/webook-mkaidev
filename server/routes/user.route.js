@@ -3,19 +3,24 @@ import {
   deleteUserController,
   followUserController,
   getUserController,
-  getUserProfileController,
   unfollowUserController,
   updateUserController,
 } from "../controllers/user.controller.js";
 
 const router = express.Router();
 
+//update USER
 router.put("/:id", updateUserController);
+//delete user
 router.delete("/:id", deleteUserController);
-router.get("/:id", getUserController);
-router.get("/", getUserProfileController);
 
+//get a user
+router.get("/:id", getUserController);
+
+//follow a user
 router.put("/follow/:id", followUserController);
+
+//unfollow User
 router.put("/unfollow/:id", unfollowUserController);
 
 export default router;

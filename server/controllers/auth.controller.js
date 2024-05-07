@@ -1,5 +1,7 @@
 import { loginUser, registerUser } from "../services/auth.service.js";
+import { deleteUser } from "../services/user.service.js";
 
+//Register
 export const register = async (req, res) => {
   try {
     const newUser = await registerUser(req.body);
@@ -12,7 +14,7 @@ export const register = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       error: error,
-      message: "Error occurred registering user",
+      message: "Error Occurred Registering User",
     });
     console.log(error);
   }
@@ -24,13 +26,13 @@ export const login = async (req, res) => {
     const { password, ...data } = user._doc;
 
     res.status(200).json({
-      message: "User logged in successfully",
+      message: "User logged In successfully",
       data,
     });
   } catch (error) {
     res.status(500).json({
       error: error,
-      message: "Error occurred logging in the user",
+      message: "Error Occurred logging in the User",
     });
     console.log(error);
   }

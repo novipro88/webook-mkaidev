@@ -2,7 +2,6 @@ import {
   deleteUser,
   followUser,
   getUser,
-  getUserProfile,
   unfollowUser,
   updateUser,
 } from "../services/user.service.js";
@@ -13,7 +12,7 @@ export const updateUserController = async (req, res) => {
       const user = await updateUser(req.params.id, req.body);
       res.status(200).json({
         user,
-        message: "Account has been updated successfully",
+        message: "Account has been updated Successfully",
       });
     } catch (err) {
       console.log(err);
@@ -29,7 +28,7 @@ export const deleteUserController = async (req, res) => {
     try {
       await deleteUser(req.params.id);
       res.status(200).json({
-        message: "Account has been deleted successfully",
+        message: "Account has been deleted Successfully",
       });
     } catch (err) {
       console.log(err);
@@ -45,21 +44,7 @@ export const getUserController = async (req, res) => {
     const user = await getUser(req.params.id);
     const { password, ...data } = user._doc;
     res.status(200).json({
-      userInfo: data,
-      message: "Account has been fetched successfully",
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
-  }
-};
-
-export const getUserProfileController = async (req, res) => {
-  try {
-    const user = await getUserProfile(req.query);
-    const { password, ...data } = user._doc;
-    res.status(200).json({
-      userInfo: data,
+      data,
       message: "Account has been fetched Successfully",
     });
   } catch (err) {
@@ -73,7 +58,7 @@ export const followUserController = async (req, res) => {
     const data = await followUser(req.body, req.params);
     res.status(200).json({
       data,
-      message: "Follow user successfully",
+      message: "Follow User Successfully",
     });
   } catch (err) {
     console.log(err);
@@ -86,7 +71,7 @@ export const unfollowUserController = async (req, res) => {
     const data = await unfollowUser(req.body, req.params);
     res.status(200).json({
       data,
-      message: "UnFollow user successfully",
+      message: "UnFollow User Successfully",
     });
   } catch (err) {
     console.log(err);

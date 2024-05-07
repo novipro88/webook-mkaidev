@@ -2,7 +2,6 @@ import {
   createPost,
   deletePost,
   getPost,
-  getAllPosts,
   getTimelinePosts,
   likeAndDislike,
   updatePost,
@@ -13,12 +12,12 @@ export const createPostController = async (req, res) => {
     const newPost = await createPost(req.body);
     res.status(200).json({
       newPost,
-      message: "Post has been created successfully",
+      message: "Post has been created Successfully",
     });
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: "Post creation failed",
+      message: "Post creation Failed",
       err,
     });
   }
@@ -29,7 +28,7 @@ export const updatePostController = async (req, res) => {
     const updatedPost = await updatePost(req.params, req.body);
     res.status(200).json({
       updatedPost,
-      message: "Post has been updated successfully",
+      message: "Post has been updated Successfully",
     });
   } catch (err) {
     console.log(err);
@@ -45,7 +44,7 @@ export const deletePostController = async (req, res) => {
     const deletedPost = await deletePost(req.params, req.body);
     res.status(200).json({
       deletedPost,
-      message: "Post has been deleted successfully",
+      message: "Post has been deleted Successfully",
     });
   } catch (err) {
     console.log(err);
@@ -66,7 +65,7 @@ export const likeAndDislikeController = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: "Post like or dislike action failed",
+      message: "Post Like or dislike action failed",
       err,
     });
   }
@@ -77,7 +76,7 @@ export const getPostController = async (req, res) => {
     const post = await getPost(req.params);
     res.status(200).json({
       post,
-      message: "Post has been fetched successfully",
+      message: "Post has been fetched Successfully",
     });
   } catch (err) {
     console.log(err);
@@ -90,31 +89,15 @@ export const getPostController = async (req, res) => {
 
 export const getTimelinePostsController = async (req, res) => {
   try {
-    const timelinePosts = await getTimelinePosts(req.params);
+    const timelinePosts = await getTimelinePosts(req.body);
     res.status(200).json({
       timelinePosts,
-      message: "Timeline post fetched successfully",
+      message: "Timeline Post fetched Successfully",
     });
   } catch (err) {
     console.log(err);
     res.status(500).json({
       message: "Post fetch failed",
-      err,
-    });
-  }
-};
-
-export const getAllPostsController = async (req, res) => {
-  try {
-    const posts = await getAllPosts();
-    res.status(200).json({
-      posts,
-      message: "Posts have been fetched Successfully",
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      message: "Posts fetch failed",
       err,
     });
   }

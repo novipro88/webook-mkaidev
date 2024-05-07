@@ -42,25 +42,17 @@ export const getUser = async (userId) => {
   }
 };
 
-export const getUserProfile = async (query) => {
-  try {
-    const user = await UserModel.findOne({ username: query.username });
-    return user;
-  } catch (err) {
-    throw err;
-  }
-};
-
-export const followUser = async (userData, updateData) => {
-  if (userData.userId === updateData.id) {
+export const followUser = async (userdata, updateData) => {
+  if (userdata.userId === updateData.id) {
     throw new Error("You cannot follow yourself");
   } else {
     try {
-      const user = await UserModel.findById(userData.userId);
+      const user = await UserModel.findById(userdata.userId);
       const currentUser = await UserModel.findById(updateData.id);
-
+      // console.log(user);
+      // console.log(currentUser);
       if (!user.followings.includes(updateData.id)) {
-        await currentUser.updateOne({ $push: { followers: userData.userId } });
+        await currentUser.updateOne({ $push: { followers: userdata.userId } });
         await user.updateOne({ $push: { followings: updateData.id } });
         return { user, currentUser };
       } else {
@@ -72,17 +64,18 @@ export const followUser = async (userData, updateData) => {
   }
 };
 
-export const unfollowUser = async (userData, updateData) => {
-  if (userData.userId === updateData.id) {
+export const unfollowUser = async (userdata, updateData) => {
+  if (userdata.userId === updateData.id) {
     throw new Error("You cannot unfollow yourself");
   } else {
     try {
-      const user = await UserModel.findById(userData.userId);
+      const user = await UserModel.findById(userdata.userId);
       const currentUser = await UserModel.findById(updateData.id);
-
+      // console.log(user);
+      // console.log(updateData);
       if (user.followings.includes(updateData.id)) {
         await currentUser.updateOne(
-          { $pull: { followers: userData.userId } },
+          { $pull: { followers: userdata.userId } },
           { new: true }
         );
         await user.updateOne(
@@ -91,7 +84,6 @@ export const unfollowUser = async (userData, updateData) => {
           },
           { new: true }
         );
-
         return { user, currentUser };
       } else {
         throw new Error("You don't follow this user");
